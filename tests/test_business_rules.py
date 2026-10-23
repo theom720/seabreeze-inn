@@ -4,6 +4,7 @@ from business_rules import (
     get_stay_discount,
     gets_welcome_package,
     requires_credit_check,
+    total_reserved,
 )
 
 
@@ -65,3 +66,15 @@ def test_welcome_package_at_exactly_1000_total():
 
 def test_no_welcome_package_just_below_1000_total():
     assert gets_welcome_package(10, 999.99) is False
+
+
+def test_total_reserved_adds_every_stay():
+    stays = [
+        {"guest": "A", "nightly_rate": 110.00, "nights": 2, "corporate": False},
+        {"guest": "B", "nightly_rate": 140.00, "nights": 20, "corporate": False},
+    ]
+    assert round(total_reserved(stays), 2) == 2556.00
+
+
+def test_total_reserved_of_empty_list_is_zero():
+    assert total_reserved([]) == 0

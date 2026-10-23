@@ -44,3 +44,13 @@ def requires_credit_check(total: float) -> bool:
 def gets_welcome_package(nights: int, total: float) -> bool:
     """Return True when the stay gets a welcome package."""
     return nights > WELCOME_PACKAGE_NIGHTS and total >= WELCOME_PACKAGE_LIMIT
+
+
+def total_reserved(stays: list) -> float:
+    """Return the sum of the stay totals for every stay in the list."""
+    total = 0.0
+    for stay in stays:
+        total += calculate_stay_total(
+            stay["nightly_rate"], stay["nights"], stay["corporate"]
+        )
+    return total
