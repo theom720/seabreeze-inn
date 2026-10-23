@@ -54,3 +54,30 @@ def total_reserved(stays: list) -> float:
             stay["nightly_rate"], stay["nights"], stay["corporate"]
         )
     return total
+
+
+def largest_stay(stays: list) -> str:
+    """Return the guest of the stay with the largest total, or "" for an empty list."""
+    largest_name = ""
+    largest = 0.0
+    for stay in stays:
+        total = calculate_stay_total(
+            stay["nightly_rate"], stay["nights"], stay["corporate"]
+        )
+        if total > largest:
+            largest = total
+            largest_name = stay["guest"]
+    return largest_name
+
+
+def format_stay_line(
+    guest: str, total: float, credit_check: bool, welcome_package: bool
+) -> str:
+    """Return one line of the report, with yes or no for each True/False value."""
+    credit_text = "no"
+    if credit_check:
+        credit_text = "yes"
+    package_text = "no"
+    if welcome_package:
+        package_text = "yes"
+    return f"{guest}: ${total:.2f} | credit check: {credit_text} | welcome package: {package_text}"

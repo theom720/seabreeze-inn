@@ -1,8 +1,10 @@
 from business_rules import (
     calculate_room_cost,
     calculate_stay_total,
+    format_stay_line,
     get_stay_discount,
     gets_welcome_package,
+    largest_stay,
     requires_credit_check,
     total_reserved,
 )
@@ -78,3 +80,28 @@ def test_total_reserved_adds_every_stay():
 
 def test_total_reserved_of_empty_list_is_zero():
     assert total_reserved([]) == 0
+
+
+def test_largest_stay_returns_biggest_guest():
+    stays = [
+        {"guest": "A", "nightly_rate": 110.00, "nights": 2, "corporate": False},
+        {"guest": "B", "nightly_rate": 140.00, "nights": 20, "corporate": False},
+    ]
+    assert largest_stay(stays) == "B"
+
+
+def test_largest_stay_tie_goes_to_first():
+    stays = [
+        {"guest": "A", "nightly_rate": 140.00, "nights": 20, "corporate": False},
+        {"guest": "B", "nightly_rate": 140.00, "nights": 20, "corporate": False},
+    ]
+    assert largest_stay(stays) == "A"
+
+
+def test_largest_stay_of_empty_list_is_empty_string():
+    assert largest_stay([]) == ""
+
+
+def test_stay_line_shows_yes_and_no():
+    line = format_stay_line("Nakata", 2296.00, True, True)
+    assert line == "Nakata: $2296.00 | credit check: yes | welcome package: yes"
